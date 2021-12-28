@@ -8,20 +8,31 @@
     </ul>
   </div>
 </div>
+
 {% paginate products from products.current by theme.products_per_page %}
   <div class="container">
+    
     {% if products != blank %}
-      <div class="product-list products-page-list">
+      <div class="productList">
         {% for product in products %}
-          <a class="product-list-item" href="{{ product.url }}" title="View {{ product.name | escape }}">
-            <figure>
-              <img src="{{ product.image | product_image_url | constrain: '600' }}" alt="Image of {{ product.name | escape }}">
-              <figcaption>
-                <h4>{{ product.name | truncate: 28 }}</h4>
-                <span>{{ product.default_price | money: theme.money_format }} {% if product.on_sale %} | On Sale {% endif %} {% case product.status %} {% when 'sold-out' %} | Sold Out {% when 'coming-soon' %} | Coming Soon {% endcase %}</span>
-              </figcaption>
-            </figure>
-          </a>
+          <div class="productItemWrap">
+              <div class="productItem">
+                <a href="{{ product.url }}" title="View {{ product.name | escape }}">
+                  <div class="productImage imgStage">
+                    <span>
+                      <img src="{{ product.image | product_image_url | constrain: '400' }}" alt="Image of {{ product.name | escape }}">
+                    </span>
+                  </div>
+                  <div class="productDescription">
+                    <h4>{{ product.name | truncate: 28 }}</h4>
+                    <div class="itemPrice{% if product.on_sale %} onSale {% endif %}{% case product.status %} {% when 'sold-out' %} soldOut {% when 'coming-soon' %} comingSoon {% endcase %}">
+                      <div>{{ product.default_price | money: theme.money_format }}&nbsp;</div>
+                      <div>{% if product.on_sale %} | On Sale {% endif %} {% case product.status %} {% when 'sold-out' %} | Sold Out {% when 'coming-soon' %} | Coming Soon {% endcase %}</div>
+                    </div>
+                </div>
+                </a>
+              </div>
+          </div>
         {% endfor %}
       </div>
       {% if paginate.pages > 1 %}
